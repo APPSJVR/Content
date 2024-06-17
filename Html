@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>POST Request</title>
+</head>
+<body>
+    <script>
+        function sendPostRequest(jsonData) {
+            var xhr = new XMLHttpRequest();
+            var url = 'https://www.example.com/api'; // URL a la que deseas hacer la solicitud POST
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(xhr.responseText);
+                }
+            };
+
+            var data = JSON.stringify(jsonData);
+            xhr.send(data);
+        }
+
+        // Función para obtener el JSON del parámetro de la URL
+        function getJsonFromUrlParameter() {
+            var search = window.location.search.substring(1);
+            var jsonParameter = decodeURIComponent(search);
+            try {
+                var jsonData = JSON.parse(jsonParameter);
+                return jsonData;
+            } catch (e) {
+                console.error('Error parsing JSON:', e);
+                return null;
+            }
+        }
+
+        // Obtener el JSON de los parámetros de la URL y enviarlo
+        var jsonData = getJsonFromUrlParameter();
+        if (jsonData) {
+            sendPostRequest(jsonData);
+        } else {
+            console.error('No se pudo obtener el JSON de los parámetros de la URL.');
+        }
+    </script>
+</body>
+</html>
